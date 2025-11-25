@@ -1,2 +1,5 @@
-public class TaskStatus {
+public enum TaskStatus {
+    NEW,
+    STARTED,
+    DONE
 }
