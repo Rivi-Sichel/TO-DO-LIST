@@ -3,26 +3,31 @@ import java.util.List;
 
     public class IncreasingSubsequences {
 
+        //function the get arr with numbers
+        //check how many  sequences are there
         public static List<List<Integer>> findIncreasingSequences(int[] arr) {
+            //initialize the variable
+            //save the sequences that found
             List<List<Integer>> result = new ArrayList<>();
+            //save the current sequences
             List<Integer> current = new ArrayList<>();
 
+            //Going through the array
+            //
             for (int i = 0; i < arr.length; i++) {
+                //If current is empty or the number is greater than the last element -> add it to the current sequence.
                 if (current.isEmpty() || arr[i] > current.get(current.size() - 1)) {
-                    // ממשיך רצף עולה
                     current.add(arr[i]);
                 } else {
-                    // הרצף נשבר – אם הוא באורך 2+, שומרים
+                    //If the number is smaller or equal -> save current and start a new sequence.
                     if (current.size() >= 2) {
                         result.add(new ArrayList<>(current));
                     }
-                    // מתחילים רצף חדש
                     current.clear();
                     current.add(arr[i]);
                 }
             }
 
-            // בדיקה אחרונה אחרי הלולאה
             if (current.size() >= 2) {
                 result.add(new ArrayList<>(current));
             }
