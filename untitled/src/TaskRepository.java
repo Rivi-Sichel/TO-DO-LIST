@@ -9,17 +9,16 @@ public class TaskRepository {
 
     private final String filePath = "data/tasks.json";
 
+    //load the task
     public List<Task> loadFromTheFile() {
         List<Task> tasks = new ArrayList<>();
         try {
             String json = new String(Files.readAllBytes(Paths.get(filePath)));
             json = json.trim();
-            if (json.length() <= 2) return tasks; // קובץ ריק או []
+            if (json.length() <= 2) return tasks;
 
-            // הסרת הסוגריים החיצוניים
             json = json.substring(1, json.length() - 1).trim();
 
-            // פיצול כל אובייקט Task
             String[] objects = json.split("\\},\\s*\\{");
             for (String obj : objects) {
                 obj = obj.replace("{", "").replace("}", "").trim();
@@ -50,6 +49,7 @@ public class TaskRepository {
         return tasks;
     }
 
+    //save the changes to file
     private void saveToTheFile(List<Task> tasks) {
         StringBuilder sb = new StringBuilder();
         sb.append("[\n");
@@ -73,12 +73,16 @@ public class TaskRepository {
         }
     }
 
+    //add a new task
+    //get task and add her to the list
     public void add(Task t) {
         List<Task> tasks = loadFromTheFile();
         tasks.add(t);
         saveToTheFile(tasks);
     }
-
+    
+    //update the task
+    //get the task 
     public void update(Task t) {
         List<Task> tasks = loadFromTheFile();
         for (int i = 0; i < tasks.size(); i++) {
@@ -90,12 +94,17 @@ public class TaskRepository {
         saveToTheFile(tasks);
     }
 
+    //delete the task
+    //get id's task
     public void delete(int id) {
         List<Task> tasks = loadFromTheFile();
         tasks.removeIf(task -> task.getId() == id);
         saveToTheFile(tasks);
     }
-
+    
+    //get the task by id
+    //return the hole task
+    //if not found return null
     public Task getById(int id) {
         List<Task> tasks = loadFromTheFile();
         for (Task t : tasks) {
@@ -104,10 +113,18 @@ public class TaskRepository {
         return null;
     }
 
+    //return all the tasks by toString
     public List<Task> listAll() {
-        return loadFromTheFile();
+        List<Task> tasks = loadFromTheFile();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(tasks.get(i).toString());
+        }
+
+        return tasks;
     }
 
+    //return a new if for the new task
     public int getNextId() {
         List<Task> tasks = loadFromTheFile();
         int maxId = 0;
